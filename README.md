@@ -5,7 +5,7 @@ Python version 3
 ```bash
 git clone https://github.com/baoanh1310/census-income
 cd census-income
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Training model
