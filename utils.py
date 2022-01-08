@@ -60,3 +60,10 @@ def evaluate(model_path, X_test, y_test):
 	print("\nAccuracy: {:2}%".format(accuracy * 100))
 	print("Confusion matrix: \n", confusion_matrix(y_test, y_pred))
 	print("Classification report: \n", classification_report(y_test, y_pred))
+
+def predict(model_path, X_test, y_test, index):
+	clf = load(model_path)
+	print("Input data: \n", X_test.iloc[[index]])
+	print("Raw label: ", np.array(y_test.iloc[[index]])[0])
+	print("Result: ", clf.predict(X_test.iloc[[index]])[0])
+
