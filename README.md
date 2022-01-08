@@ -10,7 +10,7 @@ pip install -r requirements.txt
 
 ## Training model
 ```bash
-python train.py
+python3 train.py
 ```
 
 ## Run demo website
