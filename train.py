@@ -11,6 +11,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.decomposition import PCA
 
+from config import BASIC_MODEL_PATH
+
 # Import dataset
 filename = './data/adult.csv'
 df = pd.read_csv(filename, encoding='latin-1')
@@ -51,9 +53,9 @@ y_pred = logreg.predict(X_test)
 print('Accuracy score with all the features: {0:0.4f}'. format(accuracy_score(y_test, y_pred)))
 
 # Save and load model
-save_model = 'logistic.joblib'
-dump(logreg, save_model)
+if not os.path.exists(BASIC_MODEL_PATH):
+	dump(logreg, BASIC_MODEL_PATH)
 
-clf = load(save_model)
+clf = load(BASIC_MODEL_PATH)
 
 print("Loaded model accuracy score: ", accuracy_score(y_test, clf.predict(X_test)))

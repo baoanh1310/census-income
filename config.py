@@ -1,0 +1,1 @@
+BASIC_MODEL_PATH = "logistic.joblib"
