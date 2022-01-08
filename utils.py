@@ -67,3 +67,18 @@ def predict(model_path, X_test, y_test, index):
 	print("Raw label: ", np.array(y_test.iloc[[index]])[0])
 	print("Result: ", clf.predict(X_test.iloc[[index]])[0])
 
+def user_predict(model_path, user_input):
+	clf = load(model_path)
+
+	for col in ['workclass', 'occupation', 'native.country']:
+		user_input[col].fillna(user_input[col].mode()[0], inplace=True)
+	categorical = ['workclass', 'education', 'marital.status', 'occupation', 'relationship', 'race', 'sex', 'native.country']
+	for feature in categorical:
+		le = preprocessing.LabelEncoder()
+		user_input[feature] = le.fit_transform(user_input[feature])
+	# Feature scaling
+	scaler = StandardScaler()
+	user_input = pd.DataFrame(scaler.fit_transform(user_input), columns=user_input.columns)
+
+	return clf.predict(user_input)[0]
+
