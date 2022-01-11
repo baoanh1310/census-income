@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from joblib import dump, load
 from sklearn.linear_model import LogisticRegression
+from sklearn import tree
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
@@ -103,9 +104,18 @@ def train_logreg(X_train, y_train, X_test, y_test, model_path):
 	logreg.fit(X_train, y_train)
 	y_pred = logreg.predict(X_test)
 
-	# Save and load model
+	# Save model
 	if not os.path.exists(model_path):
 		dump(logreg, model_path)
+
+def train_decision_tree(X_train, y_train, X_test, y_test, model_path):
+	clf = tree.DecisionTreeClassifier()
+	clf = clf.fit(X_train, y_train)
+	y_pred = clf.predict(X_test)
+
+	# Save model
+	if not os.path.exists(model_path):
+		dump(clf, model_path)
 
 def evaluate(model_path, X_test, y_test):
 	clf = load(model_path)
