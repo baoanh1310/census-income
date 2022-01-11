@@ -35,8 +35,8 @@ with st.form("my_form"):
 		options=['White','Black','Asian-Pac-Islander','Amer-Indian-Eskimo', 'Other'])
 	data["sex"] = st.selectbox(label="Sex",
 		options=['Female','Male'])
-	data["capital.gain"] = st.number_input(label="Capital gain", min_value=0, max_value=10000)
-	data["capital.loss"] = st.number_input(label="Capital loss", min_value=0, max_value=10000)
+	data["capital.gain"] = st.number_input(label="Capital gain", min_value=0, max_value=100000)
+	data["capital.loss"] = st.number_input(label="Capital loss", min_value=0, max_value=100000)
 	data["hours.per.week"] = st.number_input(label="Number work per week", min_value=1, max_value=150)
 	data["native.country"] = st.selectbox(label="Native country",
 		options=['United-States','Mexico','Greece','Vietnam','China','Taiwan','India',

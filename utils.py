@@ -5,6 +5,7 @@ import pandas as pd
 from joblib import dump, load
 from sklearn.linear_model import LogisticRegression
 from sklearn import tree
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
@@ -47,58 +48,6 @@ def prepare_data(train_df, test_df):
 
 	return X_train, y_train, X_test, y_test
 
-def prepare_train_data(df):
-	# Encode ? as NaN
-	df[df=='?'] = np.nan
-
-	# Impute missing values with mode
-	for col in ['workclass', 'occupation', 'native.country']:
-		df[col].fillna(df[col].mode()[0], inplace=True)
-
-	# Check again for missing values
-	# print(df.isnull().sum())
-
-	# Prepare train, test data
-	X_train = df.drop(['income'], axis=1)
-	y_train = df['income']
-
-	categorical = ['workclass', 'education', 'marital.status', 'occupation', 'relationship', 'race', 'sex', 'native.country']
-	for feature in categorical:
-		le = preprocessing.LabelEncoder()
-		X_train[feature] = le.fit_transform(X_train[feature])
-
-	# Feature scaling
-	scaler = StandardScaler()
-	X_train = pd.DataFrame(scaler.fit_transform(X_train), columns=X_train.columns)
-
-	return X_train, y_train
-
-def prepare_test_data(df):
-	# Encode ? as NaN
-	df[df=='?'] = np.nan
-
-	# Impute missing values with mode
-	for col in ['workclass', 'occupation', 'native.country']:
-		df[col].fillna(df[col].mode()[0], inplace=True)
-
-	# Check again for missing values
-	# print(df.isnull().sum())
-
-	# Prepare train, test data
-	X_test = df.drop(['income'], axis=1)
-	y_test = df['income']
-
-	categorical = ['workclass', 'education', 'marital.status', 'occupation', 'relationship', 'race', 'sex', 'native.country']
-	for feature in categorical:
-		le = preprocessing.LabelEncoder()
-		X_test[feature] = le.transform(X_test[feature])
-
-	# Feature scaling
-	scaler = StandardScaler()
-	X_test = pd.DataFrame(scaler.transform(X_test), columns=X_test.columns)
-
-	return X_test, y_test
-
 def train_logreg(X_train, y_train, X_test, y_test, model_path):
 	logreg = LogisticRegression()
 	logreg.fit(X_train, y_train)
@@ -116,6 +65,17 @@ def train_decision_tree(X_train, y_train, X_test, y_test, model_path):
 	# Save model
 	if not os.path.exists(model_path):
 		dump(clf, model_path)
+
+def train_knn(X_train, y_train, X_test, y_test, model_path):
+	best_score = 0
+	for k in range(1, 26):
+		knn = KNeighborsClassifier(n_neighbors=k)
+		knn.fit(X_train, y_train)
+		y_pred = knn.predict(X_test)
+		score = accuracy_score(y_test, y_pred)
+		if score > best_score:
+			best_score = score
+			dump(knn, model_path)
 
 def evaluate(model_path, X_test, y_test):
 	clf = load(model_path)
