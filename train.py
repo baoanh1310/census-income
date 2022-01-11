@@ -18,11 +18,11 @@ print("Evaluating for Logistic Regression Model...")
 evaluate(BASIC_MODEL_PATH, X_test, y_test)
 
 # Train decision tree
-train_decision_tree(X_train, y_train, X_test, y_test, DECISION_TREE_MODEL_PATH)
-print("Evaluating for Decision Tree Model...")
-evaluate(DECISION_TREE_MODEL_PATH, X_test, y_test)
+# train_decision_tree(X_train, y_train, X_test, y_test, DECISION_TREE_MODEL_PATH)
+# print("Evaluating for Decision Tree Model...")
+# evaluate(DECISION_TREE_MODEL_PATH, X_test, y_test)
 
 # Train KNN
-train_knn(X_train, y_train, X_test, y_test, KNN_MODEL_PATH)
-print("Evaluating KNN Model...")
-evaluate(KNN_MODEL_PATH, X_test, y_test)
+# train_knn(X_train, y_train, X_test, y_test, KNN_MODEL_PATH)
+# print("Evaluating KNN Model...")
+# evaluate(KNN_MODEL_PATH, X_test, y_test)
