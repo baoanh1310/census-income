@@ -1,6 +1,6 @@
 import os
 
-from config import BASIC_MODEL_PATH, TRAIN_DATA_PATH, TEST_DATA_PATH, DECISION_TREE_MODEL_PATH, KNN_MODEL_PATH, DROP_MODEL_PATH
+from config import *
 from utils import *
 
 # Import dataset
@@ -23,6 +23,13 @@ train_logreg(X_train, y_train, X_test, y_test, DROP_MODEL_PATH)
 # Evaluation
 print("Evaluating for Drop Logistic Regression Model...")
 evaluate(DROP_MODEL_PATH, X_test, y_test)
+
+# Training oversampling model
+X_train, y_train, X_test, y_test = prepare_oversampling_data(train_df, test_df)
+train_logreg(X_train, y_train, X_test, y_test, OVERSAMPLING_MODEL_PATH_2)
+# Evaluation
+print("Evaluating for Oversampling Logistic Regression Model...")
+evaluate(OVERSAMPLING_MODEL_PATH, X_test, y_test)
 
 # Train decision tree
 # train_decision_tree(X_train, y_train, X_test, y_test, DECISION_TREE_MODEL_PATH)
