@@ -9,7 +9,7 @@ from joblib import load
 from utils import read_data, prepare_data
 from config import TRAIN_DATA_PATH, TEST_DATA_PATH, BASIC_MODEL_PATH
 
-def visualize_corr():
+def visualize_corr(method='pearson'):
 	train_df = read_data(TRAIN_DATA_PATH)
 	test_df = read_data(TEST_DATA_PATH)
 
@@ -22,13 +22,14 @@ def visualize_corr():
 		le = preprocessing.LabelEncoder()
 		train_df[feature] = le.fit_transform(train_df[feature])
 
-	train_correlation = train_df.corr()
+	train_correlation = train_df.corr(method=method)
 
 	# Plotting correlation map
 	fig, ax = plt.subplots(figsize=(16,12))
 	dataplot = sns.heatmap(train_correlation, cmap="YlGnBu", annot=True)
 
-	plt.savefig("./plots/correlation.png")
+	img_name = "./plots/" + method + "_correlation.png"
+	plt.savefig(img_name)
 
 def visualize_confusion_matrix():
 	clf = load(BASIC_MODEL_PATH)
@@ -39,5 +40,5 @@ def visualize_confusion_matrix():
 	plt.savefig("./plots/confusion_matrix.png")
 
 if __name__ == "__main__":
-	# visualize_corr()
-	visualize_confusion_matrix()
+	visualize_corr('spearman')
+	# visualize_confusion_matrix()
